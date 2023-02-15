@@ -2,18 +2,57 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<title>Ayy Lmao</title>
+		
+		<style>
+			.sectionLeft {
+				float: left;
+				width: 70%;
+			}
+			
+			.sectionRight {
+				float: right;
+				width: 30%;
+			}
+			
+			.scoreContainer {
+				background-color: rgb(0, 255, 0);
+				width: 50%;
+				padding: 10px;
+				border-radius: 10px;
+				font-size: 24px;
+				font-weight: bold;
+			}
+			
+			.clickerContainer img {
+				position: relative;
+				transition: all .075s ease-in-out;
+			}
+			
+			.clickerContainer img:hover { transform: scale(1.02); }
+			.clickerContainer img:active { transform: scale(0.995); }
+		</style>
 	</head>
 	
 	<body>
-		<p>Ayy Lmao</p>
-		<p>Ayys: <span id="ayys">0</span></p>
-		<img src="images/ayy.jpg" width="src" height="src" onclick="addToAyys(clickingPower)" title="Für Ayys hier clicken!">
+		<div class ="sectionLeft">
+			<center>
+				<div class="scoreContainer">
+					<span id="ayys">0</span> Ayys<br>
+					<span id="ayysPerSecond">0</span> <span id="ayysPerSecondEnd">Ayys/s</span>
+				</div>
+				<br>
+				<div class="clickerContainer">
+					<img src="images/ayy.jpg" width="src" height="src" onclick="addToAyys(clickingPower)" title="Für Ayys hier clicken!">
+				</div>
+			</center>
+		</div>
 		
-		<button onclick="buyALM()" title="Standard Ayy Lmao Memes. Generieren wenige Ayys." >Ayy Lmao Meme kaufen [<span id="ALM_Cost">15</span>]</button>
-		<button onclick="buyEvDSong()" title="Der Kauf dieses Liedes ist ein Schock für Ignoranten. Generiert ein paar Ayys." >Erich von Däniken Lied kaufen [<span id="EvDSong_Cost">100</span>]</button>
-		
-		<p>Sie sind folgende Anzahl an Ayy Lmao Memes besitzend: <span id="ALM_Amount">0</span></p>
-		<p>Sie sind folgende Anzahl an Erich von Däniken Lieder besitzend: <span id="EvDSong_Amount">0</span></p>
+		<div class="sectionRight">
+			<button onclick="buyALM()" title="Standard Ayy Lmao Memes. Generieren wenige Ayys." >Ayy Lmao Meme kaufen [<span id="ALM_Cost">15</span>]</button>
+			<button onclick="buyEvDSong()" title="Der Kauf dieses Liedes ist ein Schock für Ignoranten. Generiert ein paar Ayys." >Erich von Däniken Lied kaufen [<span id="EvDSong_Cost">100</span>]</button>
+			<p>Sie sind folgende Anzahl an Ayy Lmao Memes besitzend: <span id="ALM_Amount">0</span></p>
+			<p>Sie sind folgende Anzahl an Erich von Däniken Lieder besitzend: <span id="EvDSong_Amount">0</span></p>
+		</div>
 		
 		<script>
 			var ayys = 0;
@@ -22,6 +61,7 @@
 			var ALM_Amount = 0;
 			var EvDSong_Cost = 100;
 			var EvDSong_Amount = 0;
+			var AyyEnd ="Ayys/s";
 			
 			function buyALM(){
 				if (ayys >= ALM_Cost){
@@ -32,6 +72,7 @@
 					document.getElementById("ayys").innerHTML = ayys;
 					document.getElementById("ALM_Cost").innerHTML = ALM_Cost;
 					document.getElementById("ALM_Amount").innerHTML = ALM_Amount;
+					updateAyysPerSecond();
 				}
 			}
 			
@@ -44,6 +85,7 @@
 					document.getElementById("ayys").innerHTML = ayys;
 					document.getElementById("EvDSong_Cost").innerHTML = EvDSong_Cost;
 					document.getElementById("EvDSong_Amount").innerHTML = EvDSong_Amount;
+					updateAyysPerSecond();
 				}
 			}
 			
@@ -52,10 +94,21 @@
 				document.getElementById("ayys").innerHTML = ayys;
 			}
 			
+			function updateAyysPerSecond() {
+			AyysPerSecond = ALM_Amount * 1 + EvDSong_Amount * 5;
+			document.getElementById("ayysPerSecond").innerHTML = AyysPerSecond;
+				if (AyysPerSecond == 1){
+				AyyEnd = "Ayy/s";
+				}else {
+				AyyEnd = "Ayys/s";
+				}
+			document.getElementById("ayysPerSecondEnd").innerHTML = AyyEnd;
+			}
+			
 			setInterval(function() {
 				ayys = ayys + ALM_Amount * 1 + EvDSong_Amount * 5;
-				
 				document.getElementById("ayys").innerHTML = ayys;
+				document.title = ayys + " Ayys - Ayy Lmao Clicker";
 			}, 1000);
 			
 			//alert("Wenn eine Kreatur getäppt is kann sie nich blooken!");
