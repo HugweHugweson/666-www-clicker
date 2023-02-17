@@ -30,28 +30,104 @@
 			
 			.clickerContainer img:hover { transform: scale(1.02); }
 			.clickerContainer img:active { transform: scale(0.995); }
+			
+			.shopButton {
+				background-color: #b5b5b5;
+				transition: all .075s ease-in-out;
+				border-radius: 10px;
+				width: 100%;
+				margin: 10px 0px 10px 0px;
+			}
+			
+			.shopButton:hover {
+				background-color: #c7c7c7;
+				transition: all .075s ease-in-out;
+			}
+			
+			.shopButton #image {
+				width: 25%;
+			}
+			
+			.shopButton img {
+				height: 64px;
+				width: 64px;
+			}
+			
+			.shopButton #nameAndCost p {
+				margin: 0px;
+				width: 80%;
+			}
+			
+			.shopButton #nameAndCost p:first-of-type {
+				font-size: 24px;
+			}
+
+			.shopButton #amount {
+				font-size: 48px;
+				color: #595959;
+				font-family: roboto;
+				width: 15%;
+			}
+			
+			.unselectable {
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+			
 		</style>
 	</head>
 	
 	<body>
 		<div class ="sectionLeft">
 			<center>
-				<div class="scoreContainer">
+				<div class="scoreContainer unselectable">
 					<span id="ayys">0</span> Ayys<br>
 					<span id="ayysPerSecond">0</span> <span id="ayysPerSecondEnd">Ayys/s</span>
 				</div>
 				<br>
-				<div class="clickerContainer">
+				<div class="clickerContainer unselectable">
 					<img src="images/ayy.jpg" width="src" height="src" onclick="addToAyys(clickingPower)" title="Für Ayys hier clicken!">
 				</div>
 			</center>
+			<div class="sectionFooter">
+				<h4>Ayy Lmao Clicker</h4>
+				<h5>© ® ™ HugweHugweson 2023-2023</h5>
+			</div>
 		</div>
 		
 		<div class="sectionRight">
-			<button onclick="buyALM()" title="Standard Ayy Lmao Memes. Generieren wenige Ayys." >Ayy Lmao Meme kaufen [<span id="ALM_Cost">15</span>]</button>
-			<button onclick="buyEvDSong()" title="Der Kauf dieses Liedes ist ein Schock für Ignoranten. Generiert ein paar Ayys." >Erich von Däniken Lied kaufen [<span id="EvDSong_Cost">100</span>]</button>
-			<p>Sie sind folgende Anzahl an Ayy Lmao Memes besitzend: <span id="ALM_Amount">0</span></p>
-			<p>Sie sind folgende Anzahl an Erich von Däniken Lieder besitzend: <span id="EvDSong_Amount">0</span></p>
+			<table class="shopButton unselectable" onClick="buyALM()" title="Standard Ayy Lmao Memes. Generieren ein paar Ayys.">
+				<tr>
+					<td id="image"><img src="images/ALM.jpg"></td>
+					<td id="nameAndCost">
+						<p>Ayy Lmao Memes</p>
+						<p><span id="ALM_Cost">15</span> ayys</p>
+					</td>
+					<td id="amount"><span id="ALM_Amount">0</span></td>
+				</tr>
+			</table>
+			<table class="shopButton unselectable" onClick="buyEvDSong()" title="Der Kauf dieses Liedes ist ein Schock für Ignoranten. Generiert ein paar Ayys.">
+				<tr>
+					<td id="image"><img src="images/EvDSong.jpg"></td>
+					<td id="nameAndCost">
+						<p>Erich von Däniken Lieder</p>
+						<p><span id="EvDSong_Cost">100</span> ayys</p>
+					</td>
+					<td id="amount"><span id="EvDSong_Amount">0</span></td>
+				</tr>
+			</table>
+			<table class="shopButton unselectable" onClick="buyLilMayo()" title="Post vom Gangsta AyyLmao-Influencer. Generieren mittelmäßig viele Ayys.">
+				<tr>
+					<td id="image"><img src="images/lilmayo.jpg"></td>
+					<td id="nameAndCost">
+						<p>Lil'Mayo Instagram Posts</p>
+						<p><span id="LilMayo_Cost">1000</span> ayys</p>
+					</td>
+					<td id="amount"><span id="LilMayo_Amount">0</span></td>
+				</tr>
+			</table>
 		</div>
 		
 		<script>
@@ -62,6 +138,8 @@
 			var EvDSong_Cost = 100;
 			var EvDSong_Amount = 0;
 			var AyyEnd ="Ayys/s";
+			var LilMayo_Cost = 1000;
+			var LilMayo_Amount = 0;
 			
 			function buyALM(){
 				if (ayys >= ALM_Cost){
@@ -89,13 +167,26 @@
 				}
 			}
 			
+			function buyLilMayo(){
+				if (ayys >= LilMayo_Cost){
+					ayys = ayys - LilMayo_Cost;
+					LilMayo_Amount++;
+					LilMayo_Cost = Math.round(LilMayo_Cost * 1.15);
+					
+					document.getElementById("ayys").innerHTML = ayys;
+					document.getElementById("LilMayo_Cost").innerHTML = LilMayo_Cost;
+					document.getElementById("LilMayo_Amount").innerHTML = LilMayo_Amount;
+					updateAyysPerSecond();
+				}
+			}
+			
 			function addToAyys(amount) {
 				ayys = ayys + amount;
 				document.getElementById("ayys").innerHTML = ayys;
 			}
 			
 			function updateAyysPerSecond() {
-			AyysPerSecond = ALM_Amount * 1 + EvDSong_Amount * 5;
+			AyysPerSecond = ALM_Amount * 1 + EvDSong_Amount * 5 + LilMayo_Amount * 70;
 			document.getElementById("ayysPerSecond").innerHTML = AyysPerSecond;
 				if (AyysPerSecond == 1){
 				AyyEnd = "Ayy/s";
@@ -106,7 +197,7 @@
 			}
 			
 			setInterval(function() {
-				ayys = ayys + ALM_Amount * 1 + EvDSong_Amount * 5;
+				ayys = ayys + ALM_Amount * 1 + EvDSong_Amount * 5 + LilMayo_Amount * 70;
 				document.getElementById("ayys").innerHTML = ayys;
 				document.title = ayys + " Ayys - Ayy Lmao Clicker";
 			}, 1000);
